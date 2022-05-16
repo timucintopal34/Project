@@ -36,20 +36,20 @@ public class GridController : MonoBehaviour
     private void Init()
     {
         if (isLeftcar)
-            _spriteRenderer.color = Color.magenta;
+            _spriteRenderer.color = LevelEditor.Instance.leftColor;
         else
-            _spriteRenderer.color = Color.yellow;
-
-        ; 
+            _spriteRenderer.color = LevelEditor.Instance.rightColor;
     }
 
 
     // Update is called once per frame
     public void CheckStatus(bool isLeftCar)
     {
-        
         if (isLeftCar == this.isLeftcar)
+        {
             tick.SetActive(true);
+            GridManager.Instance.GridMatched();
+        }
         else // If wrong grid
             UIManager.Instance.FailGame();
 

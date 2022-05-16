@@ -11,6 +11,9 @@ public class GridManager : Singleton<GridManager>
     [SerializeField] 
     private List<GridController> gridsForRight = new List<GridController>();
 
+    [SerializeField] 
+    private int totalGrids = 0;
+
     private List<GridController> _leftGrids = new List<GridController>();
     private List<GridController> _midGrids = new List<GridController>();
     private List<GridController> _rightGrids = new List<GridController>();
@@ -26,7 +29,10 @@ public class GridManager : Singleton<GridManager>
     private List<GridController> rightQueue = new List<GridController>();
     
     public bool rightCanCrossMid = false;
-
+    
+    public int correctGrids = 0;
+    
+    
     private void Start()
     {
         LeftInit();
@@ -34,6 +40,22 @@ public class GridManager : Singleton<GridManager>
         
         RightInit();
         RightQueue();
+
+        var tempList = new List<GridController>();
+
+        foreach (var grid in gridsForLeft)
+        {
+            if(!tempList.Contains(grid))
+                tempList.Add(grid);
+        }
+        
+        foreach (var grid in gridsForRight)
+        {
+            if(!tempList.Contains(grid))
+                tempList.Add(grid);
+        }
+
+        totalGrids = tempList.Count;
     }
     
     /*
@@ -269,6 +291,15 @@ public class GridManager : Singleton<GridManager>
     {
         return _midGrids.Count>0;
     }
+    
+    public void GridMatched()
+    {
+        correctGrids++;
+        
+        if(correctGrids == totalGrids)
+            UIManager.Instance.SuccessGame();
+    }
+
 
     public GridController GetLeftList()
     {

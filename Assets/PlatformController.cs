@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -35,11 +36,20 @@ public class PlatformController : Singleton<PlatformController>
     private Transform middleIntersactionPoint;
     [SerializeField] 
     private Transform twoLaneIntersaction;
+
+    private float gateOpenDuration;
     
     // Start is called before the first frame update
+
+    private void Awake()
+    {
+        gateOpenDuration = LevelEditor.Instance.GATE_OPEN_DURATION;
+    }
+
     void Start()
     {
         Init();
+        
     }
 
     public void Init()
@@ -193,7 +203,7 @@ public class PlatformController : Singleton<PlatformController>
     private void LeftDoorAnimation()
     {
         Sequence mySequence = DOTween.Sequence();
-        mySequence.Append(leftDoor.DOLocalRotate(Vector3.back * 85f, .5f).SetEase(Ease.OutBack).SetDelay(.25f));
+        mySequence.Append(leftDoor.DOLocalRotate(Vector3.back * 85f, gateOpenDuration).SetEase(Ease.OutBack).SetDelay(.25f));
         mySequence.AppendInterval(.1f);
         mySequence.SetLoops(2,LoopType.Yoyo);
         // mySequence.OnComplete(() => leftDoorActive = false);
@@ -203,7 +213,7 @@ public class PlatformController : Singleton<PlatformController>
     {
         Sequence mySequence = DOTween.Sequence();
         
-        mySequence.Append(rightDoor.DOLocalRotate(Vector3.back * 85f, .5f).SetEase(Ease.OutBack).SetDelay(.25f));
+        mySequence.Append(rightDoor.DOLocalRotate(Vector3.back * 85f, gateOpenDuration).SetEase(Ease.OutBack).SetDelay(.25f));
         mySequence.AppendInterval(.1f);
         mySequence.SetLoops(2,LoopType.Yoyo);
         // mySequence.OnComplete(() => rightDoorActive = false);
